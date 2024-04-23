@@ -1,2 +1,5 @@
-import axios from "axios";
+import RepositoryService from "./RepositoryService.js";
 
+export {
+    RepositoryService
+}

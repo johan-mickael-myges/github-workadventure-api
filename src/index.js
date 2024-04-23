@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import registerRoutes from "./routers/index.js";
 
 import cacheControlMiddleware from "./middlewares/cacheControlMiddleware.js";

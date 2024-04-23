@@ -6,7 +6,7 @@ dotenv.config();
 let corsMiddleware = {};
 
 const corsOptions = {
-    origin: process.env.WA_HOST || '*',
+    origin: '*',
     optionsSuccessStatus: 200,
     methods: 'GET',
     allowedHeaders: 'X-Requested-With, Content-Type, Authorization'

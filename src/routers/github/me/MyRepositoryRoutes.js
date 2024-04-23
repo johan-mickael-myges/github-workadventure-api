@@ -17,7 +17,7 @@ export default class MyRepositoryRoutes {
         this._router.get("/", async (req, res) => {
             try {
                 const repositories = await this.repositoryService.getRepositories();
-                res.send(repositories);
+                res.send(repositories?.data || []);
             } catch (error) {
                 res.send([]);
             }

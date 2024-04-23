@@ -8,7 +8,6 @@ export default class AuthenticationService {
     constructor(options) {
         this.isAuthenticated = false;
         this.octokit = new Octokit(options);
-        console.log('AuthenticationService constructor', options);
     }
 
     async checkAuthentication() {

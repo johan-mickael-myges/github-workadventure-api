@@ -9,8 +9,8 @@ export default class RepositoryService {
     async getRepositories(options) {
         await this.authService.checkAuthentication();
 
-        if (!this.authService.isAuthenticated) {
-            const username = options?.username;
+        const username = options?.username;
+        if (!this.authService.isAuthenticated || username) {
 
             if (username) {
                 return await this.getRepositoriesForUser(username);

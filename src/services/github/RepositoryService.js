@@ -8,7 +8,8 @@ export default class RepositoryService {
     }
 
     async getRepositories(options) {
-        await this.authService.checkAuthentication();
+        // Authentication disabled for now
+        // await this.authService.checkAuthentication();
 
         const username = options?.username;
         if (!this.authService.isAuthenticated || username) {
@@ -16,13 +17,12 @@ export default class RepositoryService {
             if (username) {
                 return await this.getRepositoriesForUser(username);
             }
-
-            throw new Error("You are not authenticated!, please specify a username to get the repositories for.");
         }
 
-        return await this.authService.octokit.request("GET /user/repos", {
-            headers
-        });
+        throw new Error("You are not authenticated!, please specify a username to get the repositories for.");
+        // return await this.authService.octokit.request("GET /user/repos", {
+        //     headers
+        // });
     }
 
     async getRepositoriesForUser(username) {

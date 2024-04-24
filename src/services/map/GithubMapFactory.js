@@ -10,7 +10,7 @@ export default class GithubMapFactory extends MapFactory {
 
     async factory() {
         const repositoryData = await this.repositoryService.getRepositoryByURL(this.url);
-        const repositoryName = repositoryData.data.name;
+        const repositoryName = repositoryData.data.full_name;
 
         await this.setMapRepositoryText(repositoryName);
 

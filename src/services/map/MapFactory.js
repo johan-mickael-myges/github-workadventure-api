@@ -1,5 +1,6 @@
-import defaultJsonMap from '../../data/map.js';
+import jsonQ from 'jsonq';
 
+import defaultJsonMap from '../../data/map.js';
 export default class MapFactory {
     constructor() {
         this.map = defaultJsonMap;
@@ -32,7 +33,15 @@ export default class MapFactory {
     }
 
     setupRepositoryLayer() {
-        this.repositoryLayer = this.map.layers.find(layer => layer.name === 'Repository');
+        const layers = this
+            .map
+            .layers
+            .find(item => item.layers);
+
+        this.repositoryLayer = layers
+            .layers
+            .find(item => item.name === 'Repository') || [];
+
         return this;
     }
 
@@ -55,11 +64,15 @@ export default class MapFactory {
     }
 
     async setMapRepositoryText(text) {
-        let currentMap = this.map;
+        let currentMap = this.map
 
-        await currentMap.layers.forEach(layer => {
-            if (layer.name === 'Repository') {
-                layer.objects[0].text.text = text;
+        await currentMap.layers.forEach(layerItem => {
+            if (layerItem.layers) {
+                layerItem.layers.forEach(subLayerItem => {
+                    if (subLayerItem.name === 'Repository') {
+                        subLayerItem.objects[0].text.text = text;
+                    }
+                })
             }
         });
 

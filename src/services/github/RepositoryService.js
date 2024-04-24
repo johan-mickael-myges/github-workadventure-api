@@ -34,10 +34,21 @@ export default class RepositoryService {
 
     async getRepositoryByURL(url) {
         const gitUrl = GitUrlParse(url);
-        return await this.authService.octokit.request("GET /repos/{owner}/{repo}", {
-            owner: gitUrl.owner,
-            repo: gitUrl.name,
-            headers
-        });
+        try {
+            return await this.authService.octokit.request("GET /repos/{owner}/{repo}", {
+                owner: gitUrl.owner,
+                repo: gitUrl.name,
+                headers
+            });
+        } catch (error) {
+            console.error(error);
+            if (error.status === 404) {
+                return await this.authService.octokit.request("GET /repos/workadventure/workadventure", {
+                    headers
+                });
+            }
+
+            throw new Error("An error occurred while fetching the repository.");
+        }
     }
 }

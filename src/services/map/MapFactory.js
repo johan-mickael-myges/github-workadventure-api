@@ -36,7 +36,7 @@ export default class MapFactory {
         const layers = this
             .map
             .layers
-            .find(item => item.layers);
+            .find(item => item.name === 'floor');
 
         this.repositoryLayer = layers
             .layers
@@ -64,23 +64,40 @@ export default class MapFactory {
     }
 
     async setMapRepositoryText(text) {
-        let currentMap = this.map
+        let currentMap = this.map;
 
-        await currentMap.layers.forEach(layerItem => {
-            if (layerItem.layers) {
-                layerItem.layers.forEach(subLayerItem => {
-                    if (subLayerItem.name === 'Repository') {
-                        subLayerItem.objects[0].text.text = text;
-                    }
-                })
-            }
-        });
+        const textRepositoryProperty = currentMap.layers
+            .find((item) => item.id === 55)?.layers
+            .find((item) => item.id === 78)?.objects
+            .find((item) => item.id === 33).text;
 
-        this.map = currentMap;
+        if (textRepositoryProperty) {
+            textRepositoryProperty.text = text;
 
-        this.setup();
+            this.map = currentMap;
+            this.setup();
+        }
 
         return this;
+    }
+
+    async setMapRepositoryUrl(url) {
+        let currentMap = this.map;
+
+        const openWebsiteProperty = currentMap.layers
+            .find((item) => item.id === 55)?.layers
+            .find((item) => item.id === 81)?.properties
+            .find((item) => item.name === 'openWebsite');
+
+        if (openWebsiteProperty) {
+            openWebsiteProperty.value = url;
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
+
     }
 
 }

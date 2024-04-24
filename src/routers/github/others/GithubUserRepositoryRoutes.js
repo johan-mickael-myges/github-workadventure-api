@@ -7,9 +7,7 @@ dotenv.config();
 export default class GithubUserRepositoryRoutes {
     constructor() {
         this._router = express.Router();
-        this.repositoryService = new RepositoryService({
-            auth: process.env.GHTOOLS_PASSWORD
-        });
+        this.repositoryService = new RepositoryService();
         this.setup();
     }
 

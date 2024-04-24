@@ -131,7 +131,7 @@ const map = { "compressionlevel":-1,
             {
               "name":"openWebsite",
               "type":"string",
-              "value":"https:\/\/github.com\/nghuyhoang0204\/ExtensionGit"
+              "value":"https:\/\/www.github.com"
             }],
           "type":"tilelayer",
           "visible":true,

@@ -13,6 +13,7 @@ export default class GithubMapFactory extends MapFactory {
         const repositoryName = repositoryData.data.full_name;
 
         await this.setMapRepositoryText(repositoryName);
+        await this.setMapRepositoryUrl(repositoryData?.data?.html_url || 'https://www.github.com');
 
         return this;
     }

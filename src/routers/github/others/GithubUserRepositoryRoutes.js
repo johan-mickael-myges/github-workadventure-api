@@ -15,10 +15,8 @@ export default class GithubUserRepositoryRoutes {
         this._router.get("/:username", async (req, res) => {
             try {
                 const username = req.params.username || "";
-                console.log("Username: ", username);
                 if (!username) {
                     res.send([]);
-                    console.log("No username provided.");
                     return;
                 }
                 const repositories = await this.repositoryService.getRepositories({

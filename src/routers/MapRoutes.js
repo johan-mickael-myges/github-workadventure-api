@@ -1,9 +1,7 @@
-/**
- * @TODO use dynamic data instead of static data
- */
-import map from '../data/map.js';
-
 import express from "express";
+import GithubMapFactory from "../services/map/GithubMapFactory.js";
+
+import map from "../data/map.js";
 
 export default class MapRoutes {
   constructor() {
@@ -12,8 +10,23 @@ export default class MapRoutes {
   }
 
   setup() {
-    this._router.get('/', (req, res) => {
-      res.send(map);
+    this._router.get('/:ghurl', async (req, res) => {
+      let URL = req.params.ghurl || '';
+      URL = Buffer.from(URL, 'base64').toString('ascii');
+
+      if (!URL) {
+        res.send(map);
+        return;
+      }
+
+      try {
+        const githubMapFactory = new GithubMapFactory(URL);
+        const data = await githubMapFactory.factory();
+        res.send(data.map);
+      } catch (error) {
+        console.log(error);
+        res.send(map);
+      }
     });
   }
 

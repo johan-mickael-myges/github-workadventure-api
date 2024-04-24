@@ -1,5 +1,6 @@
 import AuthenticationService from "./AuthenticationService.js";
 import { defaultHeaders as headers } from "./constants.js";
+import GitUrlParse from 'git-url-parse';
 
 export default class RepositoryService {
     constructor(options) {
@@ -27,6 +28,15 @@ export default class RepositoryService {
     async getRepositoriesForUser(username) {
         return await this.authService.octokit.request("GET /users/{username}/repos", {
             username,
+            headers
+        });
+    }
+
+    async getRepositoryByURL(url) {
+        const gitUrl = GitUrlParse(url);
+        return await this.authService.octokit.request("GET /repos/{owner}/{repo}", {
+            owner: gitUrl.owner,
+            repo: gitUrl.name,
             headers
         });
     }

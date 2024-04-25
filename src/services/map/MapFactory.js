@@ -151,4 +151,22 @@ export default class MapFactory {
         return this;
     }
 
+    async setMapRepositoryLanguages(languagesData, repositoryService) {
+        let currentMap = this.map;
+
+        const languagesRepositoryProperty = currentMap.layers
+            .find((item) => item.id === 54)?.layers
+            .find((item) => item.id === 78)?.objects
+            .find((item) => item.id === 24).text;
+
+        if (languagesRepositoryProperty) {
+            languagesRepositoryProperty.text = await repositoryService.formatRepositoryLanguagesData(languagesData);
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
+    }
+
 }

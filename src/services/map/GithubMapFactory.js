@@ -19,6 +19,9 @@ export default class GithubMapFactory extends MapFactory {
         await this.setMapOwnerUrl(repositoryData?.data?.owner?.html_url || 'https://github.com/workadventure');
         await this.setMapRepositoriesUrl(repositoryData?.data?.owner);
 
+        const languagesData = await this.repositoryService.getRepositoryLanguages(repositoryData?.data?.languages_url);
+        await this.setMapRepositoryLanguages(languagesData, this.repositoryService);
+
         return this;
     }
 }

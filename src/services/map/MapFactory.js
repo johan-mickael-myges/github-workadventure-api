@@ -1,6 +1,5 @@
-import jsonQ from 'jsonq';
-
 import defaultJsonMap from '../../data/map.js';
+
 export default class MapFactory {
     constructor() {
         this.map = defaultJsonMap;
@@ -33,14 +32,10 @@ export default class MapFactory {
     }
 
     setupRepositoryLayer() {
-        const layers = this
-            .map
-            .layers
-            .find(item => item.name === 'floor');
 
-        this.repositoryLayer = layers
-            .layers
-            .find(item => item.name === 'Repository') || [];
+        this.repositoryLayer = this.map.layers
+            .find(item => item.id === 54).layers
+            .find(item => item.id === 78) || [];
 
         return this;
     }
@@ -67,12 +62,30 @@ export default class MapFactory {
         let currentMap = this.map;
 
         const textRepositoryProperty = currentMap.layers
-            .find((item) => item.id === 55)?.layers
+            .find((item) => item.id === 54)?.layers
             .find((item) => item.id === 78)?.objects
-            .find((item) => item.id === 33).text;
+            .find((item) => item.id === 22).text;
 
         if (textRepositoryProperty) {
             textRepositoryProperty.text = text;
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
+    }
+
+    async setMapRepositoryStarsCount(count) {
+        let currentMap = this.map;
+
+        const starsRepositoryProperty = currentMap.layers
+            .find((item) => item.id === 54)?.layers
+            .find((item) => item.id === 78)?.objects
+            .find((item) => item.id === 21).text;
+
+        if (starsRepositoryProperty) {
+            starsRepositoryProperty.text = '⭐️ ' + (count || 0);
 
             this.map = currentMap;
             this.setup();
@@ -86,7 +99,7 @@ export default class MapFactory {
 
         const openWebsiteProperty = currentMap.layers
             .find((item) => item.id === 55)?.layers
-            .find((item) => item.id === 81)?.properties
+            .find((item) => item.id === 65)?.properties
             .find((item) => item.name === 'openWebsite');
 
         if (openWebsiteProperty) {
@@ -98,6 +111,44 @@ export default class MapFactory {
 
         return this;
 
+    }
+
+    async setMapOwnerUrl(url) {
+        let currentMap = this.map;
+
+        const openWebsiteProperty = currentMap.layers
+            .find((item) => item.id === 55)?.layers
+            .find((item) => item.id === 66)?.properties
+            .find((item) => item.name === 'openWebsite');
+
+        if (openWebsiteProperty) {
+            openWebsiteProperty.value = url;
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
+    }
+
+    async setMapRepositoriesUrl(owner) {
+        let currentMap = this.map;
+
+        const openWebsiteProperty = currentMap.layers
+            .find((item) => item.id === 55)?.layers
+            .find((item) => item.id === 67)?.properties
+            .find((item) => item.name === 'openWebsite');
+
+        if (openWebsiteProperty) {
+            openWebsiteProperty.value = owner.type === 'User'
+                ? owner.html_url + '?tab=repositories'
+                : `https://github.com/orgs/${owner.login}/repositories`;
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
     }
 
 }

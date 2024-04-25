@@ -11,6 +11,8 @@ export default class GithubMapFactory extends MapFactory {
     async factory() {
         const repositoryData = await this.repositoryService.getRepositoryByURL(this.url);
         console.log(repositoryData);
+        const description = repositoryData.data.description;
+        const collaborators = repositoryData.data.collaborators.map(collaborator => collaborator.login);
         const repositoryName = repositoryData.data.full_name;
 
         await this.setMapRepositoryText(repositoryName);
@@ -19,9 +21,17 @@ export default class GithubMapFactory extends MapFactory {
         await this.setMapOwnerUrl(repositoryData?.data?.owner?.html_url || 'https://github.com/workadventure');
         await this.setMapRepositoriesUrl(repositoryData?.data?.owner);
 
-        const languagesData = await this.repositoryService.getRepositoryLanguages(repositoryData?.data?.languages_url);
-        await this.setMapRepositoryLanguages(languagesData, this.repositoryService);
 
+        const languagesData = await this.repositoryService.getRepositoryLanguages(repositoryData?.data?.languages_url);
+
+
+
+        await mapFactory.setMapRepositoryDescription(description);
+        await mapFactory.setMapRepositoryCollaborators(collaborators);
+
+
+        // const avatar = awwait this.RepositoryService.getRes
+        await this.setMapRepositoryLanguages(languagesData, this.repositoryService);
         return this;
     }
 }

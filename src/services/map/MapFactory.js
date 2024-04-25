@@ -58,6 +58,7 @@ export default class MapFactory {
         return this;
     }
 
+
     async setMapRepositoryText(text) {
         let currentMap = this.map;
 
@@ -168,5 +169,46 @@ export default class MapFactory {
 
         return this;
     }
+
+    // pour recuperer la description 
+    async setMapRepositoryDescription(description) {
+        let currentMap = this.map;
+
+        const descriptionRepositoryProperty = currentMap.layers
+            .find((item) => item.id === 54)?.layers
+            .find((item) => item.id === 78)?.objects
+            .find((item) => item.id === 23).text;
+
+        if (descriptionRepositoryProperty) {
+            descriptionRepositoryProperty.text = description;
+
+            this.map = currentMap;
+            this.setup();
+        }
+
+        return this;
+    }
+
+    // pour les collaborateurs
+
+    async setMapRepositoryCollaborators(collaborators) {
+        let currentMap = this.map;
+
+        const collaboratorsRepositoryProperty = currentMap.layers
+            .find((item) => item.id === 54)?.layers
+            .find((item) => item.id === 78)?.objects
+            .find((item) => item.id === 25).text;
+
+        if (collaboratorsRepositoryProperty) {
+            collaboratorsRepositoryProperty.text = collaborators.join(', ');
+
+            this.map = currentMap;
+            this.setup();
+        }
+        
+
+        return this;
+    }
+
 
 }

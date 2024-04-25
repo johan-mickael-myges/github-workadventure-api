@@ -71,6 +71,7 @@ export default class RepositoryService {
 
         return data;
     }
+    
 
     async formatRepositoryLanguagesData(languages) {
         let languagesTextItem = [];
